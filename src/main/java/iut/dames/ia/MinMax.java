@@ -1,4 +1,4 @@
-package iut.dames.ia;
+/*package iut.dames.ia;
 
 import iut.dames.arbre.MinMaxNode;
 import iut.dames.damier.*;
@@ -17,8 +17,10 @@ public class MinMax extends Ia {
     public void createTree(MinMaxNode node, int depth, Position starting) {
         if (node.isLeaf()) {
             this.buildNode(node, starting);
+            System.out.println("Profondeur"+depth);
         }
         if (depth < this.maxDepth) {
+
             for (MinMaxNode child : node.getChildren()) {
                 this.createTree(child, depth + 1, starting);
             }
@@ -75,5 +77,5 @@ public class MinMax extends Ia {
         }
         return Coup.retrouveDeplacement(damier, tempBoard, joueur);
     }
-}
+}*/
 

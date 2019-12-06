@@ -1,8 +1,9 @@
 package iut.dames.arbre;
 
-import iut.dames.damier.Damier;
+import iut.dames.damier.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MinMaxNode {
     private Damier gameBoard;
@@ -15,92 +16,67 @@ public class MinMaxNode {
         this.player = player;
     }
 
-    public MinMaxNode(Damier gameBoard, int value, int player) {
-        this.gameBoard = gameBoard;
-        this.value = value;
-        this.player = player;
-    }
-
-    public static MinMaxNode maxChild(MinMaxNode node) {
-        MinMaxNode maxNode = node.getChildren().get(0);
-        for (MinMaxNode childNode : node.getChildren()) {
-            if (maxNode.getValue() < childNode.getValue()) {
-                maxNode = childNode;
-            }
-        }
-        return maxNode;
-    }
-
-    public static int evaluate(MinMaxNode node, int joueur, int alpha, int beta) {
-
-        if (node.getPlayer() == joueur && !node.isLeaf()) {
-            for (MinMaxNode child : node.getChildren()) {
-                node.setValue(Integer.max(node.getValue(), MinMaxNode.evaluate(child, -joueur, alpha, beta)));
-                alpha = Integer.max(node.getValue(), alpha);
-                if (alpha >= beta) {
-                    break;
-                }
-            }
-            return node.getValue();
-        } else if (node.getPlayer() == -joueur && !node.isLeaf()) {
-            for (MinMaxNode child : node.getChildren()) {
-                node.setValue(Integer.min(node.getValue(), MinMaxNode.evaluate(child, -joueur, alpha, beta)));
-                beta = Integer.min(node.getValue(), beta);
-                if (alpha >= beta) {
-                    break;
-                }
-            }
-            return node.getValue();
-        }
-        return node.getValue();
-    }
-
     public Damier getGameBoard() {
         return gameBoard;
-    }
-
-    public void setGameBoard(Damier gameBoard) {
-        this.gameBoard = gameBoard;
-    }
-
-    public int getValue() {
-        return value;
-    }
-
-    public void setValue(int value) {
-        this.value = value;
-    }
-
-    public ArrayList<MinMaxNode> getChildren() {
-        return children;
-    }
-
-    public void setChildren(ArrayList<MinMaxNode> children) {
-        this.children = children;
     }
 
     public int getPlayer() {
         return player;
     }
 
-    public void setPlayer(int player) {
-        this.player = player;
+    public int getValue() {
+        return value;
     }
 
-    public void addChild(MinMaxNode child) {
-        this.children.add(child);
+    public ArrayList<MinMaxNode> getChildren() {
+        return children;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
     }
 
     public boolean isLeaf() {
         return this.children.size() == 0;
     }
 
-    @Override
-    public String toString() {
-        return "MinMaxNode{" +
-                "value=" + value +
-                ", children=" + children +
-                '}';
+    public void createChildren(Position starting) {
+        boolean taking = false;
+        List<Position> startPos = new ArrayList<Position>();
+        if (starting != null) {
+            taking = true;
+            startPos.add(starting);
+
+        } else {
+            startPos = this.getGameBoard().listePositionPion(this.getPlayer());
+        }
+
+        for (Position start : startPos) {
+            List<Position> endPos = Coup.listeArriveValide(this.getGameBoard(), start, this.getPlayer(), taking);
+            for (Position end : endPos) {
+                Deplacement move = new Deplacement(start, end);
+                ResultatAction valid = Coup.valide(this.getGameBoard(), move, this.getPlayer(), taking);
+                if (valid.getValide()) {
+                    Damier result = Coup.execute(this.getGameBoard(), move, valid);
+                    this.children.add(new MinMaxNode(result, -this.getPlayer()));
+                }
+            }
+        }
+    }
+
+    public ArrayList<MinMaxNode> getMaxChildren() {
+        ArrayList<MinMaxNode> maxChildren = new ArrayList<>();
+        int max = Integer.MIN_VALUE;
+        for (MinMaxNode child : this.getChildren()) {
+            max = Integer.max(max, child.getValue());
+        }
+        for (MinMaxNode child : this.getChildren()) {
+            if (child.getValue() == max) {
+                maxChildren.add(child);
+            }
+        }
+        return maxChildren;
+
     }
 }
 

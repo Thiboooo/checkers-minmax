@@ -24,9 +24,9 @@ public class RunDamierGraphique{
 
         Arbitre arbitre = new Arbitre(10,10);
 
-        arbitre.setJoueur(0, new Machine(1, new iut.dames.ia.MinMaxV2(1, 3)));
+        arbitre.setJoueur(0, new Machine(1, new iut.dames.ia.MinMaxV3(1, 6)));
 
-        arbitre.setJoueur(1, new Machine(-1, new iut.dames.ia.MinMax(-1, 2)));
+        arbitre.setJoueur(1, new Machine(-1, new iut.dames.ia.Aleatoire(-1)));
 
 
 	fenetre.setVisible(true);

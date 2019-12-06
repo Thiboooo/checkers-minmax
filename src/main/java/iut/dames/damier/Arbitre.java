@@ -47,7 +47,7 @@ public class Arbitre extends Thread{
     
     // temps maximal de réponse pour une IA (en millisecondes)
     // 0 = pas de timeOut
-    private int timeOut = 5000;
+    private int timeOut = 0;
     private final int MAX_TOURS = 400;
     private boolean restart = false;
     private final int x;
