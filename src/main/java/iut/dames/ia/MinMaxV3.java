@@ -23,7 +23,7 @@ public class MinMaxV3 extends Ia {
             System.out.println("Oui max");
             node.createChildren(starting);
             for (MinMaxNode child : node.getChildren()) {
-                node.setValue(Integer.max(node.getValue(), this.minmax(child, depth - 1, -player, alpha, beta, starting)));
+                node.setValue(Integer.max(node.getValue(), this.minmax(child, depth - 1, child.getPlayer(), alpha, beta, starting)));
                 alpha = Integer.max(node.getValue(), alpha);
                 if (alpha >= beta) {
                     break;
@@ -35,7 +35,7 @@ public class MinMaxV3 extends Ia {
             System.out.println("Oui min");
             node.createChildren(starting);
             for (MinMaxNode child : node.getChildren()) {
-                node.setValue(Integer.min(node.getValue(), this.minmax(child, depth - 1, -player, alpha, beta, starting)));
+                node.setValue(Integer.min(node.getValue(), this.minmax(child, depth - 1, child.getPlayer(), alpha, beta, starting)));
                 beta = Integer.min(node.getValue(), beta);
                 if (alpha >= beta) {
                     break;

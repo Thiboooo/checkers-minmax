@@ -43,14 +43,7 @@ public class MinMaxNode {
     public void createChildren(Position starting) {
         boolean taking = false;
         List<Position> startPos = new ArrayList<Position>();
-        if (starting != null) {
-            taking = true;
-            startPos.add(starting);
-
-        } else {
             startPos = this.getGameBoard().listePositionPion(this.getPlayer());
-        }
-
         for (Position start : startPos) {
             List<Position> endPos = Coup.listeArriveValide(this.getGameBoard(), start, this.getPlayer(), taking);
             for (Position end : endPos) {
@@ -58,7 +51,12 @@ public class MinMaxNode {
                 ResultatAction valid = Coup.valide(this.getGameBoard(), move, this.getPlayer(), taking);
                 if (valid.getValide()) {
                     Damier result = Coup.execute(this.getGameBoard(), move, valid);
-                    this.children.add(new MinMaxNode(result, -this.getPlayer()));
+                    if(valid.getPris()!=null){
+                        this.children.add(new MinMaxNode(result, this.getPlayer()));  
+                    }
+                    else{
+                        this.children.add(new MinMaxNode(result, -this.getPlayer())); 
+                    }
                 }
             }
         }
