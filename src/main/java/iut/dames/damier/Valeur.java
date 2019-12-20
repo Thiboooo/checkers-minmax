@@ -48,10 +48,18 @@ public class Valeur {
 		int contenu = d.getContenu(i,j);
 
 		switch (contenu){
-		case -2 : negatif += REINE; break;
-		case -1 : negatif += PION; break;
-		case 1 : positif += PION; break;
-		case 2 : positif += REINE; break;
+			case 2:
+				negatif += REINE;
+				break;
+			case 1:
+				negatif += PION;
+				break;
+			case -1:
+				positif += PION;
+				break;
+			case -2:
+				positif += REINE;
+				break;
 		default : break;
 		}
             }		    

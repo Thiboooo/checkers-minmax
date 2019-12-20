@@ -1,8 +1,10 @@
 package iut.dames.main;
 
 import iut.dames.damier.Arbitre;
+import iut.dames.damier.Humain;
 import iut.dames.damier.Machine;
 import iut.dames.ia.Ia;
+import iut.dames.ia.PapaJohnny;
 import iut.dames.visudamier.DessinDamier;
 
 import javax.swing.*;
@@ -18,15 +20,15 @@ public class RunDamierGraphique{
 
 	JFrame fenetre = new JFrame("Damier");
 	fenetre.setSize(600,500);
-        
+
         ArrayList<Ia> list = new ArrayList<>();
         
 
         Arbitre arbitre = new Arbitre(10,10);
 
-        arbitre.setJoueur(0, new Machine(1, new iut.dames.ia.MinMaxV3(1, 6)));
+        arbitre.setJoueur(0, new Machine(1, new PapaJohnny(1, 4)));
 
-        arbitre.setJoueur(1, new Machine(-1, new iut.dames.ia.Aleatoire(-1)));
+        arbitre.setJoueur(1, new Humain(-1));
 
 
 	fenetre.setVisible(true);
@@ -50,7 +52,7 @@ public class RunDamierGraphique{
 
 	Thread monThreadFenetre = new Thread(monDessinDamier);
 	monThreadFenetre.start();
-	fenetre.getContentPane().add(monDessinDamier);
+        fenetre.getContentPane().add(monDessinDamier);
 
 	// Rendre la fenetre visible
 	fenetre.setVisible(true);
